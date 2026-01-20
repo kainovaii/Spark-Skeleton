@@ -30,7 +30,7 @@ public class RoleChecker extends BaseController
         {
             String userRole = getLoggedUser(req).getRole();
             if (userRole == null || !userRole.equals(requiredRole)) {
-                redirectWithFlash(req, res, "error", "Access denied - Role required : " + requiredRole, "/admin/services");
+                redirectWithFlash(req, res, "error", "Access denied - Role required : " + requiredRole, "/");
                 halt();
             }
         }

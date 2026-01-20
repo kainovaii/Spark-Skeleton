@@ -43,6 +43,19 @@ public class UserRepository {
         });
     }
 
+    public boolean loggUserUpdate(String username, String newUsername, String newEmail, String newPassword)
+    {
+        return DB.withConnection(() ->
+        {
+            User user = this.findByUsername(username);
+            user.setUsername(newUsername);
+            user.setEmail(newEmail);
+            user.setPassword(newPassword);
+            return user.saveIt();
+        });
+    }
+
+
     public LazyList<User> getAll() {
         return User.findAll();
     }

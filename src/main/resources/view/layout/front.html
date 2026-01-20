@@ -12,22 +12,15 @@
 </head>
 <body>
     <div class="page">
-        <aside class="navbar navbar-vertical navbar-expand-lg">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle sidebar navigation" > <span class="navbar-toggler-icon"></span> </button>
-                <div class="navbar-brand navbar-brand-autodark">
-                    <a href="/" class="text-white" aria-label="UnitPanel"><img src="/assets/img/logo.png" alt="Logo UnitPanel" width="100px"></a>
-                </div>
-                <div class="collapse navbar-collapse pt-lg-3" id="sidebar-menu">
-                    {% include "./partials/navbar.html" %}>
-                </div>
-            </div>
-        </aside>
-        <header class="navbar navbar-expand-md d-none d-lg-flex d-print-none">
+        <header class="navbar navbar-expand-md d-print-none">
             <div class="container-xl">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle primary navigation" > <span class="navbar-toggler-icon"></span> </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    {% include "./partials/navbar.html" %}
+                </div>
                 <div class="navbar-nav flex-row order-md-last">
-                    <!--
                     <div class="d-none d-md-flex me-3">
                         <div class="nav-item">
                             <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" title="Enable dark mode" data-bs-toggle="tooltip" data-bs-placement="bottom">
@@ -38,22 +31,20 @@
                             </a>
                         </div>
                     </div>
-                    -->
                     {% include "./partials/user-nav.html" %}
                 </div>
-                <div class="collapse navbar-collapse" id="navbar-menu"></div>
             </div>
         </header>
         <div class="page-wrapper">
-            <div class="container-fluid">
+            <div class="container-fluid pb-0 mb-0">
                 {% if flashes.success %}
-                <div class="alert alert-success mt-3 mb-0">{{ flashes.success }}</div>
+                <div class="alert alert-success mt-3">{{ flashes.success }}</div>
                 {% endif %}
                 {% if flashes.error %}
-                <div class="alert alert-danger mt-3 mb-0">{{ flashes.error }}</div>
+                <div class="alert alert-danger mt-3">{{ flashes.error }}</div>
                 {% endif %}
             </div>
-            {% block content %}{ % endblock %}
+            {% block content %}{% endblock %}
             <footer class="footer footer-transparent d-print-none">
                 <div class="container-xl">
                     <div class="row text-center align-items-center flex-row-reverse">

@@ -41,25 +41,20 @@ public class LoginController extends BaseController
         String usernameParam = req.queryParams("username");
         String passwordParam = req.queryParams("password");
         Session session = req.session(true);
-        try {
-            return DB.withConnection(() ->
+
+        return DB.withConnection(() ->
+        {
+            if (!UserRepository.userExist(usernameParam)) redirectWithFlash(req,  res, "error", "User not found", Route.getPath("user_login"));
+            User user = userRepository.findByUsername(usernameParam);
+            if (BCrypt.checkpw(passwordParam, user.getPassword()))
             {
-                if (!UserRepository.userExist(usernameParam)) redirectWithFlash(req,  res, "error", "User not found", Route.getPath("user_login"));
-
-                User user = userRepository.findByUsername(usernameParam);
-
-                if (BCrypt.checkpw(passwordParam, user.getPassword()))
-                {
-                    session.attribute("logged", true);
-                    session.attribute("id", user.getId());
-                    res.redirect(Route.getPath("site_home"));
-                    return true;
-                }
-                return redirectWithFlash(req,  res, "error", "Incorect login", Route.getPath("user_login"));
-            });
-        } catch (RuntimeException exception) {
-            return redirectWithFlash(req,  res, "error", exception.getMessage(), Route.getPath("user_login"));
-        }
+                session.attribute("logged", true);
+                session.attribute("id", user.getId());
+                res.redirect(Route.getPath("site_home"));
+                return true;
+            }
+            return redirectWithFlash(req,  res, "error", "Incorect login", Route.getPath("user_login"));
+        });
     }
 
     @HasRole("DEFAULT")

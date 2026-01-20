@@ -1,4 +1,4 @@
-{% extends "layout/verticale.html" %}
+{% extends "layout/front.html" %}
 {% block content %}
 <div class="page-body">
     <div class="container-xxl">
@@ -9,18 +9,31 @@
                         <h3 class="card-title">Settings</h3>
                     </div>
                     <div class="card-body">
-                        <form action="/users/my-account" method="POST">
+                        <form action="{{ route(name='user_account') }}" method="POST">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div>
-                                        <label for="username" class="form-label">Username:</label>
+                                        <label for="username" class="form-label">Username</label>
                                         <input class="form-control" type="text" id="username" name="username" value="{{ loggedUser.username }}" placeholder="Enter new username">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
+                                    <div>
+                                        <label for="email" class="form-label">Email</label>
+                                        <input class="form-control" type="text" id="email" name="email" value="{{ loggedUser.email }}" placeholder="Enter new email">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
                                     <div class="mt-3">
-                                        <label for="password" class="form-label">New password:</label>
-                                        <input class="form-control" type="text" id="password" name="password" value="" placeholder="Enter new password">
+                                        <label for="password" class="form-label">New password</label>
+                                        <div x-data="{ viewToken: true }" class="input-group input-group-flat">
+                                            <input id="password" :type="viewToken ? 'password' : 'text'" class="form-control" value="{{ token.getString('token') }}" name="password" placeholder="Enter new password">
+                                            <span class="input-group-text">
+                                                <a class="link-secondary" @click="viewToken = !viewToken" style="background: transparent; border: none; cursor: pointer;" data-bs-toggle="tooltip" aria-label="View token" data-bs-original-title="View token" aria-describedby="viewtoken">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"> <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path> <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"></path> </svg>
+                                                </a>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
