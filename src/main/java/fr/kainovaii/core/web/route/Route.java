@@ -7,12 +7,7 @@ public class Route
 {
     private static final Map<String, String> namedRoutes = new HashMap<>();
 
-    public static void registerNamedRoute(String name, String path)
-    {
-        if (name != null && !name.isEmpty()) {
-            namedRoutes.put(name, path);
-        }
-    }
+    public static void registerNamedRoute(String name, String path) { if (name != null && !name.isEmpty()) { namedRoutes.put(name, path); } }
 
     public static String getPath(String name) { return namedRoutes.get(name); }
 
