@@ -1,7 +1,6 @@
 # Spark Skeleton ⚡
 
-Spark Skeleton apporte les conventions de développement modernes (routing par annotations, migrations fluides, injection de dépendances) au framework Spark Java. Fini les routes déclarées manuellement et les migrations SQL brutes.
-
+Spark Skeleton brings modern development conventions (annotation-based routing, fluent migrations, dependency injection) to the Spark Java framework. No more manually declared routes and raw SQL migrations.
 ```java
 @Controller
 public class BlogController extends BaseController {
@@ -19,48 +18,46 @@ public class BlogController extends BaseController {
 }
 ```
 
-## 🎯 Pourquoi ce projet ?
+## 🎯 Why this project?
 
-Spark Java est un excellent micro-framework, mais il manque de conventions modernes. Ce boilerplate comble le gap en ajoutant :
+Spark Java is an excellent micro-framework, but it lacks modern conventions. This boilerplate fills the gap by adding:
 
-- **Des annotations de routing** pour ne plus déclarer tes routes manuellement
-- **Un système de migrations** avec une API fluide inspirée de Laravel
-- **Le pattern Repository** avec injection de dépendances automatique
-- **Un ErrorHandler maison** pour des stack traces propres en dev
-- **Un moteur de templates** (Pebble) intégré directement dans les controllers
+- **Routing annotations** so you no longer declare routes manually
+- **A migration system** with a fluent API inspired by Laravel
+- **The Repository pattern** with automatic dependency injection
+- **A custom ErrorHandler** for clean stack traces in development
+- **A template engine** (Pebble) integrated directly into controllers
 
-## ✨ Features principales
+## ✨ Main Features
 
 | Feature | Description |
 |---------|-------------|
-| 🛣️ **Routing par annotations** | `@GET`, `@POST`, `@PUT`, `@DELETE`, `@PATCH` sur tes méthodes |
-| 🗃️ **Migrations fluides** | `table.string("title").notNull()` au lieu de SQL brut |
-| 💉 **Dependency Injection** | Injecte automatiquement tes `@Repository` dans les controllers |
-| 📦 **ActiveRecord models** | ActiveJDBC avec getters/setters pour manipuler tes models proprement |
-| 🎨 **Templating intégré** | `render("view.html", data)` directement dans tes controllers |
-| 🐛 **Error Handler custom** | Stack traces détaillées en dev, pages clean en prod |
+| 🛣️ **Annotation-based routing** | `@GET`, `@POST`, `@PUT`, `@DELETE`, `@PATCH` on your methods |
+| 🗃️ **Fluent migrations** | `table.string("title").notNull()` instead of raw SQL |
+| 💉 **Dependency Injection** | Automatically injects your `@Repository` into controllers |
+| 📦 **ActiveRecord models** | ActiveJDBC with getters/setters to manipulate your models cleanly |
+| 🎨 **Integrated templating** | `render("view.html", data)` directly in your controllers |
+| 🐛 **Custom Error Handler** | Detailed stack traces in dev, clean pages in production |
 
 ## 🚀 Quick Start
-
 ```bash
 git clone https://github.com/kainovaii/spark-skeleton.git
 cd spark-skeleton
 ./build.bat
 ```
 
-→ L'app tourne sur `http://localhost:8888`
+→ The app runs on `http://localhost:8888`
 
-## 📦 Stack technique
+## 📦 Tech Stack
 
-- **Spark Java** - Micro-framework web
-- **ActiveJDBC** - ORM léger avec pattern ActiveRecord
-- **Pebble** - Moteur de templates moderne
+- **Spark Java** - Web micro-framework
+- **ActiveJDBC** - Lightweight ORM with ActiveRecord pattern
+- **Pebble** - Modern template engine
 - **Maven** - Build & dependency management
 
-## 🔥 Exemples rapides
+## 🔥 Quick Examples
 
-### Un controller avec injection
-
+### A controller with injection
 ```java
 @Controller
 public class ArticleController extends BaseController {
@@ -75,8 +72,7 @@ public class ArticleController extends BaseController {
 }
 ```
 
-### Une migration fluide
-
+### A fluent migration
 ```java
 public class CreateArticlesTable extends Migration {
     @Override
@@ -91,8 +87,7 @@ public class CreateArticlesTable extends Migration {
 }
 ```
 
-### Un repository simple
-
+### A simple repository
 ```java
 @Repository
 public class ArticleRepository {
@@ -104,20 +99,11 @@ public class ArticleRepository {
 
 ## 📖 Documentation
 
-La documentation complète est disponible à `http://localhost:8888/docs` une fois l'app lancée.
+Full documentation is available at `http://localhost:8888/docs` once the app is running.
 
 ## 🤝 Contributing
 
-Les pull requests sont les bienvenues. Pour des changements majeurs, ouvre d'abord une issue pour discuter de ce que tu veux changer.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you'd like to change.
 
 ## 📝 License
-
 [MIT](LICENSE)
-
-## 👨‍💻 Auteur
-
-**KainoVaii** - [@kainovaii](https://github.com/kainovaii)
-
----
-
-*Développé avec passion et ☕*
