@@ -1,0 +1,43 @@
+<section id="routing">
+    <h2 class="text-3xl font-bold text-white mb-6">Routing avec annotations</h2>
+
+    <p class="text-gray-400 mb-6">
+        Fini les routes déclarées manuellement. Utilise les annotations directement sur tes méthodes.
+    </p>
+
+    <div class="space-y-6">
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Annotations disponibles</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                                    <pre class="line-numbers"><code class="language-java">@GET(value = "/articles", name = "articles.index")
+@POST(value = "/articles", name = "articles.store")
+@PUT(value = "/articles/:id", name = "articles.update")
+@DELETE(value = "/articles/:id", name = "articles.delete")
+@PATCH(value = "/articles/:id", name = "articles.patch")</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Paramètres de route</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                                    <pre class="line-numbers"><code class="language-java">@GET(value = "/articles/:id", name = "articles.show")
+private Object show(Request req, Response res) {
+    String id = req.params(":id");
+    // ...
+}</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Query parameters</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                                    <pre class="line-numbers"><code class="language-java">@GET(value = "/search", name = "search")
+private Object search(Request req, Response res) {
+    String query = req.queryParams("q");
+    String page = req.queryParams("page");
+    // ...
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</section>

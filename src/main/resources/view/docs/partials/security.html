@@ -1,0 +1,133 @@
+<section id="security">
+    <h2 class="text-3xl font-bold text-white mb-6">Security & Authentication</h2>
+
+    <p class="text-gray-400 mb-6">
+        Le système d'authentification est basé sur <span class="text-white">UserDetailsService</span>,
+        une abstraction qui te laisse libre d'organiser ton modèle User comme tu veux.
+    </p>
+
+    <div class="space-y-6">
+        <div>
+            <div class="text-gray-400 text-sm mb-3">1. Créer ton UserDetailsService</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-java">@UserDetailsServiceImpl
+public class AppUserDetailsService implements UserDetailsService {
+    private final UserRepository userRepository;
+
+    public AppUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public UserDetails loadByUsername(String username) {
+        return DB.withConnection(() -> {
+            if (!UserRepository.userExist(username)) return null;
+            User user = userRepository.findByUsername(username);
+            return adapt(user);
+        });
+    }
+
+    @Override
+    public UserDetails loadById(Object id) {
+        return DB.withConnection(() -> {
+            User user = User.findById(id);
+            return adapt(user);
+        });
+    }
+
+    private UserDetails adapt(User user) {
+        if (user == null) return null;
+
+        return new UserDetails() {
+            public Object getId() { return user.getId(); }
+            public String getUsername() { return user.getUsername(); }
+            public String getPassword() { return user.getPassword(); }
+            public String getRole() { return user.getRole(); }
+            public boolean isEnabled() { return true; }
+        };
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">3. Utiliser dans tes controllers</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-java">@Controller
+public class LoginController extends BaseController {
+
+    @POST("/users/login")
+    private Object loginBack(Request req, Response res) {
+        String username = req.queryParams("username");
+        String password = req.queryParams("password");
+        Session session = req.session(true);
+
+        if (login(username, password, session)) {
+            res.redirect("/dashboard");
+            return true;
+        }
+
+        return redirectWithFlash(req, res, "error",
+            "Incorrect login", "/users/login");
+    }
+
+    @HasRole("DEFAULT")
+    @GET("/users/logout")
+    private Object logout(Request req, Response res) {
+        logout(req.session(true));
+        return redirectWithFlash(req, res, "success",
+            "Logged out", "/users/login");
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Méthodes disponibles dans BaseController</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-java">// Authentification
+login(username, password, session)  // Authentifie et crée la session
+logout(session)                     // Déconnecte l'utilisateur
+
+// Vérifications
+isLogged(req)                       // Vérifie si connecté
+hasRole(req, "ADMIN")               // Vérifie un rôle
+requireLogin(req, res)              // Force la connexion (redirige sinon)
+
+// Récupération
+getLoggedUser(req)                  // Récupère le UserDetails</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Protection par rôle</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-java">@HasRole("ADMIN")
+@GET("/admin/dashboard")
+private Object adminDashboard(Request req, Response res) {
+    // Accessible uniquement aux ADMIN
+    return render("admin/dashboard.html", Map.of());
+}
+
+@HasRole("DEFAULT")
+@GET("/profile")
+private Object profile(Request req, Response res) {
+    // Accessible à tous les utilisateurs connectés
+    UserDetails user = getLoggedUser(req);
+    return render("profile.html", Map.of("user", user));
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800 p-6 rounded">
+            <div class="text-blue-400 mb-2">💡 Astuce</div>
+            <p class="text-gray-400 text-sm mb-3">
+                L'annotation <span class="text-white">@UserDetailsServiceImpl</span> permet
+                au framework de détecter automatiquement ton implémentation. Pas besoin de config manuelle !
+            </p>
+            <p class="text-gray-400 text-sm">
+                Le rôle <span class="text-white">"DEFAULT"</span> signifie "n'importe quel utilisateur connecté".
+            </p>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,24 @@
+<section id="database">
+    <h2 class="text-3xl font-bold text-white mb-6">Configuration Database</h2>
+
+    <div class="space-y-6">
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Utilisation dans le code</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                                    <pre class="line-numbers"><code class="language-java">// Toutes les opérations DB doivent être wrapped
+List&lt;Article&gt; articles = DB.withConnection(() ->
+    Article.findAll().stream().toList()
+);
+
+// Ou pour plusieurs opérations
+DB.withConnection(() -> {
+    Article article = new Article();
+    article.setTitle("Test");
+    article.saveIt();
+
+    return article;
+});</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
