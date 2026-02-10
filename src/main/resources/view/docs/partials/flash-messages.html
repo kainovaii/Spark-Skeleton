@@ -1,0 +1,173 @@
+<section id="flash-messages">
+    <h2 class="text-3xl font-bold text-white mb-6">Flash Messages</h2>
+
+    <p class="text-gray-400 mb-6">
+        Affiche des notifications temporaires après des actions utilisateur. Aucune dépendance externe requise.
+    </p>
+
+    <div class="space-y-6">
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Utilisation dans un controller</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-java">@Post("/login")
+public Object login(Request req, Response res)
+{
+    String username = req.queryParams("username");
+    String password = req.queryParams("password");
+
+    if (login(username, password, req.session())) {
+        return redirectWithFlash(req, res, "success", "Welcome back!", "/dashboard");
+    }
+
+    return redirectWithFlash(req, res, "error", "Invalid credentials", "/login");
+}</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Types de notifications disponibles</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-java">// Success (vert/orange)
+redirectWithFlash(req, res, "success", "Operation completed!", "/");
+
+// Error (rouge)
+redirectWithFlash(req, res, "error", "Something went wrong", "/");
+
+// Info (bleu)
+redirectWithFlash(req, res, "info", "Check your email", "/");
+
+// Warning (jaune/orange)
+redirectWithFlash(req, res, "warning", "Changes require restart", "/");</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Affichage dans le template</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-twig">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+    &lt;nav&gt;...&lt;/nav&gt;
+
+    {{ "{%" }} block content {{ "%}" }}{{ "{%" }} endblock {{ "%}" }}
+
+    {{ "{{" }} flash() {{ "}}" }}
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Configuration personnalisée (optionnel)</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-java">// Dans Main.java
+public static void configureFlash()
+{
+    // Changer la durée (en ms)
+    FlashConfig.setDuration(5000);
+
+    // Changer la position
+    FlashConfig.setPosition("top-right");
+    // Options: top-right, top-left, bottom-right,
+    //          bottom-left, top-center, bottom-center
+
+    // CSS personnalisé
+    FlashConfig.setCustomCSS("""
+        .flash-notification {
+            border-radius: 1rem;
+            font-size: 0.875rem;
+        }
+        .flash-success {
+            background: linear-gradient(to right, #10b981, #059669);
+        }
+        """);
+}</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Utilisation manuelle avec JavaScript</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-javascript">// Afficher une notification depuis le frontend
+showNotification('File uploaded!', 'success');
+
+// Exemple avec AJAX
+fetch('/api/save', { method: 'POST', body: data })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('Saved successfully!', 'success');
+        } else {
+            showNotification('Error: ' + result.message, 'error');
+        }
+    });</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Exemples d'utilisation</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-java">// CRUD Product
+@Post("/products/create")
+public Object create(Request req, Response res) {
+    Product product = new Product();
+    product.setName(req.queryParams("name"));
+
+    if (product.save()) {
+        return redirectWithFlash(req, res, "success", "Product created!", "/products");
+    }
+    return redirectWithFlash(req, res, "error", "Failed to create product", "/products/new");
+}
+
+// Reset password
+@Post("/password/reset")
+public Object reset(Request req, Response res) {
+    String email = req.queryParams("email");
+    // ... envoi email
+    return redirectWithFlash(req, res, "info", "Reset link sent to your email", "/login");
+}
+
+// Delete with warning
+@Post("/items/{id}/delete")
+public Object delete(Request req, Response res) {
+    // ... suppression
+    return redirectWithFlash(req, res, "warning", "Item deleted", "/items");
+}</code></pre>
+            </div>
+        </div>
+
+        <div>
+            <div class="text-gray-400 text-sm mb-3">Thèmes prédéfinis</div>
+            <div class="bg-zinc-950 border border-zinc-800 p-6">
+                <pre class="line-numbers"><code class="language-java">// Thème Glassmorphism
+FlashConfig.setCustomCSS("""
+    .flash-notification {
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .flash-success { border-left: 4px solid #10b981; }
+    .flash-error { border-left: 4px solid #ef4444; }
+    """);
+
+// Thème Material Design
+FlashConfig.setCustomCSS("""
+    .flash-notification {
+        border-radius: 4px;
+        box-shadow: 0 3px 5px -1px rgba(0,0,0,.2);
+    }
+    """);
+
+// Thème minimaliste
+FlashConfig.setCustomCSS("""
+    .flash-notification {
+        background: #1f2937;
+        color: #f3f4f6;
+        border: 1px solid #374151;
+    }
+    """);</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
