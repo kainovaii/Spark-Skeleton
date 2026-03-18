@@ -22,7 +22,7 @@
     <dependency>
       <groupId>com.github.obsidian-framework</groupId>
       <artifactId>core</artifactId>
-      <version>v1.5.0</version>
+      <version>v2.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -44,7 +44,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.6.3</version>
         <configuration>
-          <mainClass>fr.kainovaii.obsidian.Main</mainClass>
+          <mainClass>com.obsidian.Main</mainClass>
         </configuration>
       </plugin>
       <!-- Compiler -->
@@ -87,7 +87,7 @@
               <transformers>
                 <!-- Définir la classe main -->
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>fr.kainovaii.obsidian.Main</mainClass>
+                  <mainClass>com.obsidian.Main</mainClass>
                 </transformer>
                 <!-- Merger tous les activejdbc_models.properties -->
                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
