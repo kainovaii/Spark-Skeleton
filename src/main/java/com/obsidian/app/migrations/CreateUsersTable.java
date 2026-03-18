@@ -13,7 +13,6 @@ public class CreateUsersTable extends Migration {
         createTable("users", table -> {
             table.id();
             table.string("username").notNull().unique();
-            table.string("email").notNull().unique();
             table.string("password").notNull();
             table.string("role").notNull().defaultValue("USER");
             table.timestamps();
