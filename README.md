@@ -1,4 +1,4 @@
-<p align="center"><a href="https://obsidian-java.com/" target="_blank"><img src="https://obsidian-java.com/assets/img/logo.png" width="300" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://obsidian-java.com/" target="_blank"><img src="https://obsidian-java.com/assets/img/logo.png" width="300" alt="Obsidian Logo"></a></p>
 
 <p align="center">
     <a href="#">
